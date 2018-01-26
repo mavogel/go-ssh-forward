@@ -38,6 +38,7 @@ type Forward struct {
 	quit          chan bool
 	config        *Config
 	forwardErrors chan error
+	LocalListener *net.Listener
 }
 
 // NewForward creates new forward
@@ -59,6 +60,7 @@ func NewForward(config *Config) (*Forward, chan error, error) {
 	if err != nil {
 		return nil, nil, err
 	}
+	t.LocalListener = &localListener
 
 	/// == run the forward
 	go t.run(sshClient, localListener)
@@ -73,7 +75,8 @@ func (f *Forward) run(sshClient *ssh.Client, localListener net.Listener) {
 
 	jumpCount := 1
 	for {
-		endHostConn, err := sshClient.Dial("tcp", f.config.RemoteAddress) // TODO timeout here?
+		// Q: timeout here? Does it make sense cuz we're on the host already
+		endHostConn, err := sshClient.Dial("tcp", f.config.RemoteAddress)
 		if err != nil {
 			f.forwardErrors <- fmt.Errorf("Failed to connect on end host to docker daemon at '%s': %s", f.config.RemoteAddress, err)
 			return
