@@ -12,6 +12,7 @@ install:
   - go version
   - go env
   - set PATH=%PATH%;%GOPATH%\bin
+  - go get -d ./...
 
 test_script:
   - for /f "" %%G in ('go list github.com/mavogel/go-ssh-forward/...') do ( go test -v %%G & IF ERRORLEVEL == 1 EXIT 1)
