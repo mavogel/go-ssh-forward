@@ -40,10 +40,7 @@ type Forward struct {
 	forwardErrors chan error
 }
 
-// NewForward creates new forward
-// 1: it build the SSH tunnel via the optional jump hosts
-// 2: if this was successful a forward from the 'LocalAddress' to the 'RemoteAddress'
-//    will be established
+// NewForward creates new forward with optional jump hosts
 func NewForward(config *Config) (*Forward, chan error, error) {
 	/// == bootstrap
 	if err := checkConfig(config); err != nil {
@@ -78,8 +75,12 @@ func (f *Forward) run(sshClient *ssh.Client, localListener net.Listener) {
 			f.forwardErrors <- fmt.Errorf("Failed to connect on end host to docker daemon at '%s': %s", f.config.RemoteAddress, err)
 			return
 		}
-		endHostConn.SetReadDeadline(time.Now().Add(time.Duration(readDeadline) * time.Second))
-		endHostConn.SetWriteDeadline(time.Now().Add(time.Duration(writeDeadline) * time.Second))
+		if err = endHostConn.SetReadDeadline(time.Now().Add(time.Duration(readDeadline) * time.Second)); err != nil {
+			f.forwardErrors <- fmt.Errorf("Failed to set read deadline on end host connection: %s", err)
+		}
+		if err = endHostConn.SetWriteDeadline(time.Now().Add(time.Duration(writeDeadline) * time.Second)); err != nil {
+			f.forwardErrors <- fmt.Errorf("Failed to set write deadline on end host connection: %s", err)
+		}
 		defer endHostConn.Close()
 
 		localConn, err := f.buildLocalConnection(localListener)
@@ -87,8 +88,12 @@ func (f *Forward) run(sshClient *ssh.Client, localListener net.Listener) {
 			f.forwardErrors <- fmt.Errorf("Error building local connection: %s", err)
 			return
 		}
-		localConn.SetReadDeadline(time.Now().Add(time.Duration(readDeadline) * time.Second))
-		localConn.SetWriteDeadline(time.Now().Add(time.Duration(writeDeadline) * time.Second))
+		if err = localConn.SetReadDeadline(time.Now().Add(time.Duration(readDeadline) * time.Second)); err != nil {
+			f.forwardErrors <- fmt.Errorf("Failed to set read deadline on local connection: %s", err)
+		}
+		if err = localConn.SetWriteDeadline(time.Now().Add(time.Duration(writeDeadline) * time.Second)); err != nil {
+			f.forwardErrors <- fmt.Errorf("Failed to set write deadline on local connection: %s", err)
+		}
 		defer localConn.Close()
 
 		if err != nil {
