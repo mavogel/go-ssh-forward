@@ -1,7 +1,7 @@
 version: '{build}'
 platform: x64
 clone_depth: 2
-clone_folder: c:\gopath\src\github.com\mavogel\sshforward
+clone_folder: c:\gopath\src\github.com\mavogel\go-ssh-forward
 environment:
   GOPATH: c:\gopath
   matrix:

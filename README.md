@@ -1,7 +1,7 @@
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
-[![Travis Build Status](https://travis-ci.org/mavogel/sshforward.svg?branch=master)](https://travis-ci.org/mavogel/sshforward)
+[![Travis Build Status](https://travis-ci.org/mavogel/go-ssh-forward.svg?branch=master)](https://travis-ci.org/mavogel/go-ssh-forward)
 
-# sshforward: A library for setting up a Forward via SSH in go
+# go-ssh-forward: A library for setting up a Forward via SSH in go
 ## Table of Contents
 - [Motivation](#motivation)
 - [Usage](#usage)
@@ -35,7 +35,7 @@ import (
 	"log"
 	"time"
 
-  fw "github.com/mavogel/sshforward"
+  fw "github.com/mavogel/go-ssh-forward"
 )
 func main() {
   forwardConfig := &fw.Config{
