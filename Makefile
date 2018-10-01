@@ -22,7 +22,7 @@ fmtcheck:
 pretest: lint fmtcheck
 
 gotest:
-	go test -race ./ -v -timeout 5m
+	@sh -c "'$(CURDIR)/scripts/test.sh'"
 
 test: pretest gotest
 
