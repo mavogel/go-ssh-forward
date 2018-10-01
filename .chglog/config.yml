@@ -5,18 +5,24 @@ info:
   repository_url: https://github.com/mavogel/go-ssh-forward
 options:
   commits:
-    # filters:
-    #   Type:
-    #     - feat
-    #     - fix
-    #     - perf
-    #     - refactor
+    filters:
+      Type:
+        - feat
+        - fix
+        - perf
+        - refactor
+        - docs
+        - build
+        - chore
   commit_groups:
-    # title_maps:
-    #   feat: Features
-    #   fix: Bug Fixes
-    #   perf: Performance Improvements
-    #   refactor: Code Refactoring
+    title_maps:
+      feat: Features
+      fix: Bug Fixes
+      perf: Performance Improvements
+      refactor: Code Refactoring
+      docs: Documentation
+      build: Build Environment
+      chore: General
   header:
     pattern: "^(\\w*)\\:\\s(.*)$"
     pattern_maps:
