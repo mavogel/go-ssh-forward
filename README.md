@@ -1,5 +1,6 @@
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![Travis Build Status](https://travis-ci.org/mavogel/go-ssh-forward.svg?branch=master)](https://travis-ci.org/mavogel/go-ssh-forward)
+[![appveyor](https://ci.appveyor.com/api/projects/status/github/mavogel/go-ssh-forward?svg=true)](https://ci.appveyor.com/api/projects/status/github/mavogel/go-ssh-forward)
 [![codecov](https://codecov.io/gh/mavogel/go-ssh-forward/branch/master/graph/badge.svg)](https://codecov.io/gh/mavogel/go-ssh-forward)
 [![golangci](https://golangci.com/badges/github.com/mavogel/go-ssh-forward.svg)](https://golangci.com/r/github.com/mavogel/go-ssh-forward)
 [![GoDoc](https://godoc.org/github.com/mavogel/go-ssh-forward?status.svg)](http://godoc.org/github.com/mavogel/go-ssh-forward)
