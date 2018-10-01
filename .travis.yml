@@ -1,24 +1,16 @@
 language: go
 sudo: false
 go:
-  - 1.8.x
-  - 1.9.x
-  - tip
-os:
-  - linux
-  - osx
-env:
-  matrix:
-    - GOARCH=amd64 DOCKER_PKG_VERSION=17.06.0~ce-0~ubuntu
-    - GOARCH=386   DOCKER_PKG_VERSION=17.06.0~ce-0~ubuntu
-    - GOARCH=amd64 DOCKER_PKG_VERSION=17.05.0~ce-0~ubuntu-trusty
-    - GOARCH=386   DOCKER_PKG_VERSION=17.05.0~ce-0~ubuntu-trusty
+  - 1.11
+  - 1.10.x
+  - 1.9
+  - 1.8
+
+before_install:
+  - go get -u -t ./...
+
 script:
-  - make test
-matrix:
-  fast_finish: true
-  exclude:
-    - os: osx
-      env: GOARCH=amd64 DOCKER_PKG_VERSION=17.05.0~ce-0~ubuntu-trusty
-    - os: osx
-      env: GOARCH=386   DOCKER_PKG_VERSION=17.05.0~ce-0~ubuntu-trusty
+  - GO111MODULE=on make test
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
