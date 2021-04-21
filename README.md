@@ -11,6 +11,7 @@
 - [Motivation](#motivation)
 - [Usage](#usage)
 - [Inspiration](#inspiration)
+- [Releasee](#release)
 - [License](#license)
 
 ## <a name="motivation"></a>Motivation
@@ -92,6 +93,13 @@ func handleForwardErrors(forwardErrors chan error) {
 - [Go Best Practices](https://talks.golang.org/2013/bestpractices.slide#29) 
 - [Shutdown go listeners](http://zhen.org/blog/graceful-shutdown-of-go-net-dot-listeners/)
 - [sshego](https://github.com/glycerine/sshego)
+
+## <a name="release"></a>Release
+```sh
+$ VERSION=vX.Y.Z make release
+# EXAMPLE:
+$ VERSION=v0.11.3 make release
+```
 
 ## <a name="license"></a>License
     Copyright (c) 2018 Manuel Vogel
