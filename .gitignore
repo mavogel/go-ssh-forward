@@ -2,4 +2,5 @@ Gopkg.lock
 vendor/
 .idea
 .DS_Store
-coverage.txt
+cover.out
+bin
