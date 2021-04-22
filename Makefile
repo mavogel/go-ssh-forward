@@ -20,7 +20,7 @@ all: help
 .PHONY: test
 test:   ## Run tests
 	@ $(MAKE) --no-print-directory log-$@
-	$(GOHOST) test -race -covermode atomic -coverprofile cover.out -v ./...
+	$(GOHOST) test -race -covermode atomic -coverprofile coverage.out -v ./...
 
 bin/golangci-lint: bin/golangci-lint-${GOLANGCI_VERSION}
 	@ln -sf golangci-lint-${GOLANGCI_VERSION} bin/golangci-lint

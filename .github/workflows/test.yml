@@ -24,11 +24,10 @@ jobs:
           go-version: 1.16
       - name: Run tests
         run: make test
-      - name: Install goveralls
-        env:
-          GO111MODULE: off
-        run: go get github.com/mattn/goveralls
-      - name: Send coverage
-        env:
-          COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: goveralls -coverprofile=cover.out -service=github
+      - name: Convert coverage
+        uses: jandelgado/gcov2lcov-action@v1.0.5
+      - name: Upload coverage
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          path-to-lcov: coverage.lcov
