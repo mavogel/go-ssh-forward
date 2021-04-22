@@ -39,7 +39,7 @@ import (
 	"log"
 	"time"
 
-  fw "github.com/mavogel/go-ssh-forward"
+    fw "github.com/mavogel/go-ssh-forward"
 )
 func main() {
   forwardConfig := &fw.Config{
@@ -100,5 +100,5 @@ $ VERSION=v0.11.3 make release
 ```
 
 ## <a name="license"></a>License
-    Copyright (c) 2018 Manuel Vogel
+    Copyright (c) 2018-2021 Manuel Vogel
     Source code is open source and released under the MIT license.
