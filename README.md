@@ -1,6 +1,6 @@
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![PkgGoDev](https://pkg.go.dev/badge/github.com/mavogel/go-ssh-forward)](https://pkg.go.dev/github.com/mavogel/go-ssh-forward)
-![Build Status](https://github.com/mavogel/go-ssh-forward/actions/workflows/main.yml/badge.svg)
+![Build Status](https://github.com/mavogel/go-ssh-forward/actions/workflows/lint.yml/badge.svg)
 [![Coverage Status](https://img.shields.io/coveralls/mavogel/go-ssh-forward.svg)](https://coveralls.io/r/mavogel/go-ssh-forward)
 [![Go Report Card](https://goreportcard.com/badge/github.com/mavogel/go-ssh-forward)](https://goreportcard.com/report/github.com/mavogel/go-ssh-forward)
 
