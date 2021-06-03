@@ -1,44 +1,62 @@
 package forward
 
-import "fmt"
+import (
+	"errors"
+)
 
-// checkConfig checks the config if it is feasible
+var (
+	ErrJumpHostsNotSupportd           = errors.New("only 1 jump host is supported atm")             // nolint: revive
+	ErrLocalAndRemoteAddressUnset     = errors.New("localAddress and RemoteAddress have to be set") // nolint: revive
+	ErrSSHConfigUnset                 = errors.New("SSHConfig cannot be nil")
+	ErrUserEmpty                      = errors.New("user cannot be empty")
+	ErrAddressEmpty                   = errors.New("address cannot be empty")
+	ErrPrivateKeyFileAndPasswordUnset = errors.New("either PrivateKeyFile or Password has to be set")
+	ErrConfigIsNil                    = errors.New("Config cannot be nil")
+)
+
+// checkConfig checks the config if it is feasible.
 func checkConfig(config *Config) error {
 	if config == nil {
-		return fmt.Errorf("Config cannot be nil")
+		return ErrConfigIsNil
 	}
 
-	if len(config.JumpHostConfigs) > 1 { //TODO atm only one jump host is supported
-		return fmt.Errorf("Only 1 jump host is supported atm")
+	if len(config.JumpHostConfigs) > 1 {
+		return ErrJumpHostsNotSupportd
 	}
+
 	for _, jumpConfig := range config.JumpHostConfigs {
 		if err := checkSSHConfig(jumpConfig); err != nil {
 			return err
 		}
 	}
+
 	if err := checkSSHConfig(config.EndHostConfig); err != nil {
 		return err
 	}
+
 	if config.LocalAddress == "" || config.RemoteAddress == "" {
-		return fmt.Errorf("LocalAddress and RemoteAddress have to be set")
+		return ErrLocalAndRemoteAddressUnset
 	}
 
 	return nil
 }
 
-// checkSSSConfig checks the ssh config for feasibility
+// checkSSHConfig checks the ssh config for feasibility.
 func checkSSHConfig(sshConfig *SSHConfig) error {
 	if sshConfig == nil {
-		return fmt.Errorf("SSHConfig cannot be nil")
+		return ErrSSHConfigUnset
 	}
+
 	if sshConfig.User == "" {
-		return fmt.Errorf("User cannot be empty")
+		return ErrUserEmpty
 	}
+
 	if sshConfig.Address == "" {
-		return fmt.Errorf("Address cannot be empty")
+		return ErrAddressEmpty
 	}
+
 	if sshConfig.PrivateKeyFile == "" && sshConfig.Password == "" {
-		return fmt.Errorf("Either PrivateKeyFile or Password has to be set")
+		return ErrPrivateKeyFileAndPasswordUnset
 	}
 
 	return nil
