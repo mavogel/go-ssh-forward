@@ -16,7 +16,7 @@ all: help
 .PHONY: test
 test:   ## Run tests
 	@ $(MAKE) --no-print-directory log-$@
-	$(GOHOST) test -timeout 60s -race -covermode atomic -coverprofile coverage.out -v ./...
+	$(GOHOST) test -timeout 60s -race -covermode atomic -coverprofile coverage.txt -v ./...
 
 .PHONY: lint
 lint: ## Run linters
