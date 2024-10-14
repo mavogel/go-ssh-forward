@@ -9,7 +9,7 @@ plugins:
 
 branches:
   - name: +([0-9])?(.{+([0-9]),x}).x
-  - name: master
+  - name: main
   - name: next
     prerelease: true
   - name: pre/rc
