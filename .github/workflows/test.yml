@@ -12,22 +12,27 @@ on:
       - 'README.md'
 jobs:
   unit:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v5
         with:
-          go-version: 1.16
+          go-version: 1.21.x
       - name: Run tests
         run: make test
-      - name: Convert coverage
-        uses: jandelgado/gcov2lcov-action@v1.0.5
-      - name: Upload coverage
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.github_token }}
-          path-to-lcov: coverage.lcov
+      #- name: Upload coverage reports to Codecov
+      #  uses: codecov/codecov-action@v4
+      #  env:
+      #    CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      #- name: Upload coverage reports to Codeclimate
+      #  if: github.event_name != 'pull_request'
+      #  uses: paambaati/codeclimate-action@v9.0.0
+      #  env:
+      #    CC_TEST_REPORTER_ID: ${{ secrets.CODECLIMATE_TEST_REPORTER_ID }}
+      #  with:
+      #    prefix: "github.com/mavogel/go-ssh-forward"
+      #    coverageLocations: coverage.txt:gocov
