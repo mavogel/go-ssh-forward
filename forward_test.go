@@ -129,9 +129,9 @@ func TestForwardUnreachableEndHostWithoutJump(t *testing.T) {
 	checkErrorContains(t, err, "ssh.Dial directly to end host failed")
 }
 
-//////////////
+// ////////////
 // Helpers
-//////////////
+// ////////////
 func checkErrorContains(t *testing.T, err error, errorMsgtoContain string) {
 	if !strings.Contains(err.Error(), errorMsgtoContain) {
 		t.Errorf("Expected error to contain \n'%s' but got \n'%s'", errorMsgtoContain, err.Error())
@@ -142,7 +142,7 @@ func createConfig(jumpHostAddress, jumpHostUser, jumpHostPrivateKeyFile, jumpHos
 	return createConfigBase(jumpHostAddress, jumpHostUser, jumpHostPrivateKeyFile, jumpHostPassword, "localhost:2376", "localhost:2376")
 }
 
-func createConfigWithAddresses(jumpHostAddress, jumpHostUser, jumpHostPrivateKeyFile, jumpHostPassword, localAddress, remoteAddress string) *Config {
+func createConfigWithAddresses(jumpHostAddress, jumpHostUser, jumpHostPrivateKeyFile, jumpHostPassword, localAddress, remoteAddress string) *Config { //nolint: lll
 	return createConfigBase(jumpHostAddress, jumpHostUser, jumpHostPrivateKeyFile, jumpHostPassword, localAddress, remoteAddress)
 }
 

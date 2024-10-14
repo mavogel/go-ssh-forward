@@ -5,8 +5,8 @@ import (
 )
 
 var (
-	ErrJumpHostsNotSupportd           = errors.New("only 1 jump host is supported atm")             // nolint: revive
-	ErrLocalAndRemoteAddressUnset     = errors.New("localAddress and RemoteAddress have to be set") // nolint: revive
+	ErrJumpHostsNotSupportd           = errors.New("only 1 jump host is supported atm")             //nolint: revive
+	ErrLocalAndRemoteAddressUnset     = errors.New("localAddress and RemoteAddress have to be set") //nolint: revive
 	ErrSSHConfigUnset                 = errors.New("SSHConfig cannot be nil")
 	ErrUserEmpty                      = errors.New("user cannot be empty")
 	ErrAddressEmpty                   = errors.New("address cannot be empty")

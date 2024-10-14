@@ -3,16 +3,15 @@ package forward
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net"
+	"os"
 	"time"
 
 	"golang.org/x/crypto/ssh"
 )
 
-// nolint: gochecknoglobals
-var (
+var ( //nolint: gochecknoglobals
 	readDeadline                    = 30
 	writeDeadline                   = 30
 	connectionTimeout               = 8 * time.Second
@@ -67,8 +66,7 @@ func NewForward(config *Config) (*Forward, chan error, error) {
 	return t, forwardErrors, nil
 }
 
-// nolint: cyclop
-func (f *Forward) run(sshClient *ssh.Client, localListener net.Listener) {
+func (f *Forward) run(sshClient *ssh.Client, localListener net.Listener) { //nolint: cyclop
 	defer func() {
 		localListener.Close()
 		sshClient.Close()
@@ -77,11 +75,11 @@ func (f *Forward) run(sshClient *ssh.Client, localListener net.Listener) {
 	jumpCount := 1
 
 	for {
-		// nolint: godox
+		//nolint: godox
 		endHostConn, err := sshClient.Dial("tcp", f.config.RemoteAddress) // TODO timeout here?
 		if err != nil {
 			f.forwardErrors <- fmt.Errorf("failed to connect on end host to docker daemon at '%s': %w", f.config.RemoteAddress, err)
-			return // nolint: nlreturn
+			return //nolint: nlreturn
 		}
 
 		if err = endHostConn.SetReadDeadline(time.Now().Add(time.Duration(readDeadline) * time.Second)); err != nil {
@@ -91,12 +89,12 @@ func (f *Forward) run(sshClient *ssh.Client, localListener net.Listener) {
 		if err = endHostConn.SetWriteDeadline(time.Now().Add(time.Duration(writeDeadline) * time.Second)); err != nil {
 			f.forwardErrors <- fmt.Errorf("failed to set write deadline on end host connection: %w", err)
 		}
-		defer endHostConn.Close()
+		defer endHostConn.Close() //nolint: gocritic
 
 		localConn, err := f.buildLocalConnection(localListener)
 		if err != nil {
 			f.forwardErrors <- fmt.Errorf("failed to build the local connection: %w", err)
-			return // nolint: nlreturn
+			return //nolint: nlreturn
 		}
 
 		if err = localConn.SetReadDeadline(time.Now().Add(time.Duration(readDeadline) * time.Second)); err != nil {
@@ -106,7 +104,7 @@ func (f *Forward) run(sshClient *ssh.Client, localListener net.Listener) {
 		if err = localConn.SetWriteDeadline(time.Now().Add(time.Duration(writeDeadline) * time.Second)); err != nil {
 			f.forwardErrors <- fmt.Errorf("failed to set write deadline on local connection: %w", err)
 		}
-		defer localConn.Close()
+		defer localConn.Close() //nolint: gocritic
 
 		if err != nil {
 			select {
@@ -135,7 +133,7 @@ func (f *Forward) Stop() {
 func convertToSSHConfig(toConvert *SSHConfig) (*ssh.ClientConfig, error) {
 	config := &ssh.ClientConfig{
 		User:            toConvert.User,
-		HostKeyCallback: ssh.InsecureIgnoreHostKey(), // nolint: gosec
+		HostKeyCallback: ssh.InsecureIgnoreHostKey(), //nolint: gosec
 		Timeout:         connectionTimeout,
 	}
 
@@ -155,7 +153,7 @@ func convertToSSHConfig(toConvert *SSHConfig) (*ssh.ClientConfig, error) {
 
 // publicKeyFile helper to read the key files.
 func publicKeyFile(file string) (ssh.AuthMethod, error) {
-	buffer, err := ioutil.ReadFile(file)
+	buffer, err := os.ReadFile(file)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read file '%s': %w", file, err)
 	}
@@ -239,7 +237,7 @@ func (f *Forward) dialNextJump(jumpHostClient *ssh.Client, nextJumpAddress strin
 		jumpHostConn, err := jumpHostClient.Dial("tcp", nextJumpAddress)
 		if err != nil {
 			f.forwardErrors <- fmt.Errorf("ssh.Dial from jump host to end server failed: %w", err)
-			return // nolint: nlreturn
+			return //nolint: nlreturn
 		}
 		connChan <- jumpHostConn
 	}()
