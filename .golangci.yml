@@ -21,12 +21,8 @@ linters-settings:
       - whyNoLint
   gocyclo:
     min-complexity: 15
-  golint:
-    min-confidence: 0
   lll:
     line-length: 140
-  maligned:
-    suggest-new: true
   misspell:
     locale: US
 
